@@ -48,7 +48,7 @@ function linkit_picker_views_default_views() {
       'hide_empty' => 0,
       'empty_zero' => 0,
       'link_to_node' => 0,
-      'exclude' => 0,
+      'exclude' => 1,
       'id' => 'nid',
       'table' => 'node',
       'field' => 'nid',
@@ -84,8 +84,8 @@ function linkit_picker_views_default_views() {
       'field' => 'title',
       'relationship' => 'none',
     ),
-    'type' => array(
-      'label' => 'Type',
+    'linkit_picker' => array(
+      'label' => 'Linkit Picker',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
@@ -107,12 +107,10 @@ function linkit_picker_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
-      'link_to_node' => 0,
-      'machine_name' => 0,
       'exclude' => 0,
-      'id' => 'type',
-      'table' => 'node',
-      'field' => 'type',
+      'id' => 'linkit_picker',
+      'table' => 'linkik_picker_node',
+      'field' => 'linkit_picker',
       'relationship' => 'none',
     ),
   ));
@@ -142,16 +140,207 @@ function linkit_picker_views_default_views() {
     ),
   ));
   $handler->override_option('access', array(
-    'type' => 'none',
+    'type' => 'perm',
+    'perm' => 'access content',
   ));
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
-  $handler->override_option('title', 'Linkit picker');
+  $handler->override_option('title', 'Nodes');
+  $handler->override_option('empty', 'No nodes was found.');
+  $handler->override_option('empty_format', '1');
   $handler->override_option('use_ajax', TRUE);
   $handler->override_option('use_pager', 'mini');
   $handler->override_option('style_plugin', 'table');
   $handler->override_option('style_options', NULL);
+  $views[$view->name] = $view;
+
+  /*
+   * View 'linkit_picker_term'
+   */
+  $view = new view;
+  $view->name = 'linkit_picker_term';
+  $view->description = '';
+  $view->tag = ' linkit_picker';
+  $view->view_php = '';
+  $view->base_table = 'term_data';
+  $view->is_cacheable = FALSE;
+  $view->api_version = 2;
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+  $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->override_option('fields', array(
+    'tid' => array(
+      'label' => 'Term ID',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'set_precision' => FALSE,
+      'precision' => 0,
+      'decimal' => '.',
+      'separator' => ',',
+      'prefix' => '',
+      'suffix' => '',
+      'exclude' => 1,
+      'id' => 'tid',
+      'table' => 'term_data',
+      'field' => 'tid',
+      'relationship' => 'none',
+    ),
+    'name' => array(
+      'label' => 'Term',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'link_to_taxonomy' => 0,
+      'exclude' => 0,
+      'id' => 'name',
+      'table' => 'term_data',
+      'field' => 'name',
+      'relationship' => 'none',
+    ),
+    'name_1' => array(
+      'label' => 'Vocabulary name',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'exclude' => 0,
+      'id' => 'name_1',
+      'table' => 'vocabulary',
+      'field' => 'name',
+      'relationship' => 'none',
+    ),
+    'linkit_picker' => array(
+      'label' => 'Linkit Picker',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'exclude' => 0,
+      'id' => 'linkit_picker',
+      'table' => 'linkik_picker_taxonomy',
+      'field' => 'linkit_picker',
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('sorts', array(
+    'name' => array(
+      'order' => 'ASC',
+      'id' => 'name',
+      'table' => 'term_data',
+      'field' => 'name',
+      'relationship' => 'none',
+    ),
+  ));
+  $handler->override_option('access', array(
+    'type' => 'perm',
+    'perm' => 'access content',
+  ));
+  $handler->override_option('cache', array(
+    'type' => 'none',
+  ));
+  $handler->override_option('title', 'Terms');
+  $handler->override_option('empty', 'No terms was found.');
+  $handler->override_option('empty_format', '1');
+  $handler->override_option('use_ajax', TRUE);
+  $handler->override_option('use_pager', 'mini');
+  $handler->override_option('style_plugin', 'table');
+  $handler->override_option('style_options', array(
+    'grouping' => '',
+    'override' => 1,
+    'sticky' => 0,
+    'order' => 'asc',
+    'columns' => array(
+      'name' => 'name',
+      'tid' => 'tid',
+      'name_1' => 'name_1',
+    ),
+    'info' => array(
+      'name' => array(
+        'sortable' => 0,
+        'separator' => '',
+      ),
+      'tid' => array(
+        'sortable' => 0,
+        'separator' => '',
+      ),
+      'name_1' => array(
+        'sortable' => 0,
+        'separator' => '',
+      ),
+    ),
+    'default' => '-1',
+  ));
   $views[$view->name] = $view;
 
   /*
@@ -168,6 +357,36 @@ function linkit_picker_views_default_views() {
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
   $handler = $view->new_display('default', 'Defaults', 'default');
   $handler->override_option('fields', array(
+    'uid' => array(
+      'label' => 'Uid',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'link_class' => '',
+        'alt' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'link_to_user' => 0,
+      'exclude' => 1,
+      'id' => 'uid',
+      'table' => 'users',
+      'field' => 'uid',
+      'relationship' => 'none',
+    ),
     'name' => array(
       'label' => 'Name',
       'alter' => array(
@@ -200,8 +419,8 @@ function linkit_picker_views_default_views() {
       'field' => 'name',
       'relationship' => 'none',
     ),
-    'rid' => array(
-      'label' => 'Roles',
+    'linkit_picker' => array(
+      'label' => 'Linkit Picker',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
@@ -223,42 +442,10 @@ function linkit_picker_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
-      'type' => 'separator',
-      'separator' => ', ',
       'exclude' => 0,
-      'id' => 'rid',
-      'table' => 'users_roles',
-      'field' => 'rid',
-      'relationship' => 'none',
-    ),
-    'uid' => array(
-      'label' => 'Uid',
-      'alter' => array(
-        'alter_text' => 0,
-        'text' => '',
-        'make_link' => 0,
-        'path' => '',
-        'link_class' => '',
-        'alt' => '',
-        'prefix' => '',
-        'suffix' => '',
-        'target' => '',
-        'help' => '',
-        'trim' => 0,
-        'max_length' => '',
-        'word_boundary' => 1,
-        'ellipsis' => 1,
-        'html' => 0,
-        'strip_tags' => 0,
-      ),
-      'empty' => '',
-      'hide_empty' => 0,
-      'empty_zero' => 0,
-      'link_to_user' => 0,
-      'exclude' => 0,
-      'id' => 'uid',
-      'table' => 'users',
-      'field' => 'uid',
+      'id' => 'linkit_picker',
+      'table' => 'linkik_picker_user',
+      'field' => 'linkit_picker',
       'relationship' => 'none',
     ),
   ));
@@ -301,6 +488,9 @@ function linkit_picker_views_default_views() {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
+  $handler->override_option('title', 'Users');
+  $handler->override_option('empty', 'No users was found.');
+  $handler->override_option('empty_format', '1');
   $handler->override_option('use_ajax', TRUE);
   $handler->override_option('use_pager', 'mini');
   $handler->override_option('style_plugin', 'table');
@@ -333,5 +523,3 @@ function linkit_picker_views_default_views() {
 
   return $views;
 }
-
-
