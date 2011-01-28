@@ -1,0 +1,109 @@
+<?php 
+// $Id$
+
+/**
+ * @file
+ * Main file for linkit_pikcer module.
+ */
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function linkit_picker_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == "_linkit_form") {
+    $form['link']['browser_wrapper'] = array(
+      '#type' => 'fieldset', 
+      '#title' => t('Browser'), 
+      '#collapsible' => TRUE, 
+      '#collapsed' => TRUE, 
+      '#weight' => 3,
+      '#attributes' => array('class' => 'linkit_picker'),
+    );
+
+    $form['link']['browser_wrapper']['node'] = array(
+      '#type' => 'button',
+      '#value' => t('Node'),
+      '#weight' => 0,
+      '#attributes' => array('class' => 'linkit_picker_button'),
+    );
+
+    $form['link']['browser_wrapper']['user'] = array(
+      '#type' => 'button',
+      '#value' => t('User'),
+      '#weight' => 1,
+      '#attributes' => array('class' => 'linkit_picker_button'),
+    );
+
+    $form['link']['browser_wrapper']['term'] = array(
+      '#type' => 'button',
+      '#value' => t('Term'),
+      '#weight' => 2,
+      '#attributes' => array('class' => 'linkit_picker_button'),
+    );
+
+    $form['link']['browser_wrapper']['container'] = array(
+      '#prefix' => '<div id="linkit-picker-container">',
+      '#suffix' => '</div>',
+      '#type' => 'markup', 
+      '#value' => _linkit_picker_render_container(),
+      '#weight' => 10,
+    );
+  }
+}
+
+/**
+ * Return all the views that should be used in the container.
+ */
+function _linkit_picker_render_container() {
+  $form_value = "";
+
+  $views = array('linkit_picker_node', 'linkit_picker_user', 'linkit_picker_term');
+
+  foreach ($views AS $view) {
+    $form_value .= _linkit_picker_get_views($view);
+  }
+
+  return $form_value;
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function linkit_picker_views_api() {
+  return array(
+    'api' => 2,
+    'path' => drupal_get_path('module', 'linkit_picker') . '/includes', 
+  );
+}
+
+/**
+ * Implementation of hook_theme_registry_alter().
+ */
+function linkit_picker_theme_registry_alter(&$theme_registry) {
+  // Add a new preprocess function
+  $theme_registry['linkit_dashboard']['preprocess functions'][] = 'linkit_picker_alter_template_preprocess_linkit_dashboard';
+}
+
+function linkit_picker_alter_template_preprocess_linkit_dashboard(&$variables) {
+  drupal_add_js(drupal_get_path('module', 'linkit_picker') . '/linkit_picker.js');
+  drupal_add_css(drupal_get_path('module', 'linkit_picker') . '/linkit_picker.css');
+  
+  $variables['styles']  = drupal_get_css();
+  $variables['head']    = drupal_get_html_head();
+  $variables['scripts'] = drupal_get_js();
+}
+
+
+function _linkit_picker_get_views($viewname) {
+  $output = '';
+
+  $view = views_get_view($viewname);
+  if ($view && $view->access('default')) {
+    $output .= '<div class="view-container">';
+    $output .= $view->get_title();
+    $output .= $view->preview('default');
+    $output .= '</div>';
+  }
+
+  return $output;
+}
