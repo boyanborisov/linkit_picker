@@ -1,4 +1,3 @@
-; $Id$
 name = Linkit Picker
 description = Linkit Picker adds the possibility to "browse" links like Node Picker had.
 core = 6.x

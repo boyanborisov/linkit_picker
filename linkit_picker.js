@@ -1,4 +1,3 @@
-// $Id$
 
 Drupal.behaviors.linkit_picker_buttons = function(context) {
   $('.linkit_picker_button', context).click(function() {
