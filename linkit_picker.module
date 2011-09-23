@@ -6,7 +6,7 @@
  */
 
 /**
- * Implementation of hook_form_alter().
+ * Implements hook_form_alter().
  */
 function linkit_picker_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == "_linkit_form") {
@@ -77,7 +77,7 @@ function _linkit_picker_render_container($views) {
 }
 
 /**
- * Implementation of hook_views_api().
+ * Implements hook_views_api().
  */
 function linkit_picker_views_api() {
   return array(
@@ -87,7 +87,7 @@ function linkit_picker_views_api() {
 }
 
 /**
- * Implementation of hook_theme_registry_alter().
+ * Implements hook_theme_registry_alter().
  */
 function linkit_picker_theme_registry_alter(&$theme_registry) {
   // Add a new preprocess function

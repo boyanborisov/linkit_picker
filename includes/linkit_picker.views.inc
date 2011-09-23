@@ -6,7 +6,7 @@
  */
 
 /**
- * Implementation of hook_views_handlers().
+ * Implements hook_views_handlers().
  *
 function linkit_picker_views_handlers() {
   return array(
@@ -29,7 +29,7 @@ function linkit_picker_views_handlers() {
 */
 
 /**
- * Implementation of hook_views_data().
+ * Implements hook_views_data().
  */
 function linkit_picker_views_data() {
   
