@@ -15,7 +15,7 @@ class linkit_picker_handler_field_node_info extends views_handler_field {
     $nid = $values->nid;
     $title = $values->node_title;
     // $type = ucwords($values->node_type);
-    $value = $title . ' [path:internal:node/' . $nid . ']';
+    $value = $title . ' [path:node/' . $nid . ']';
     return $value;
   }
 

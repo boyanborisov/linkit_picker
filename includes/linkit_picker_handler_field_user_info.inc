@@ -14,7 +14,7 @@ class linkit_picker_handler_field_user_info extends views_handler_field {
   function render($values) {
     $uid = $values->uid;
     $users_name = $values->users_name;
-    $value = $users_name . ' [path:internal:user/' . $uid . ']';
+    $value = $users_name . ' [path:user/' . $uid . ']';
     return $value;
   }
 
