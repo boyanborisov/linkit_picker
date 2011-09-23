@@ -10,55 +10,67 @@
  */
 function linkit_picker_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == "_linkit_form") {
+		$form['link']['link']['#field_suffix'] = '<input type="submit" id="linkit-imce" name="linkit-imce" value="Choose File ..." class="form-submit" />';
+		$form['link']['attributes']['#weight'] = 3;
     $form['link']['browser_wrapper'] = array(
       '#type' => 'fieldset', 
-      '#title' => t('Browser'), 
+      '#title' => t('Select From List'), 
       '#collapsible' => TRUE, 
       '#collapsed' => TRUE, 
-      '#weight' => 3,
-      '#attributes' => array('class' => 'linkit_picker'),
-    );
-
-    $form['link']['browser_wrapper']['node'] = array(
-      '#type' => 'button',
-      '#value' => t('Node'),
-      '#weight' => 0,
-      '#attributes' => array('class' => 'linkit_picker_button'),
-    );
-
-    $form['link']['browser_wrapper']['user'] = array(
-      '#type' => 'button',
-      '#value' => t('User'),
-      '#weight' => 1,
-      '#attributes' => array('class' => 'linkit_picker_button'),
-    );
-
-    $form['link']['browser_wrapper']['term'] = array(
-      '#type' => 'button',
-      '#value' => t('Term'),
       '#weight' => 2,
-      '#attributes' => array('class' => 'linkit_picker_button'),
+      '#attributes' => array('class' => array('linkit_picker')),
     );
+		
+		$modulesInstalled = module_list();
+		$views = array();
+		
+		if(array_key_exists('linkit_node', $modulesInstalled)){
+			$views[] = 'linkit_picker_node';
+			$form['link']['browser_wrapper']['node'] = array(
+				'#type' => 'button',
+				'#value' => t('Node'),
+				'#weight' => 0,
+				'#attributes' => array('class' => array('linkit_picker_button')),
+			);
+		}
 
+		if(array_key_exists('linkit_user', $modulesInstalled)){
+			$views[] = 'linkit_picker_user';
+			$form['link']['browser_wrapper']['user'] = array(
+				'#type' => 'button',
+				'#value' => t('User'),
+				'#weight' => 1,
+				'#attributes' => array('class' => array('linkit_picker_button')),
+			);
+		}
+
+		if(array_key_exists('linkit_taxonomy', $modulesInstalled)){
+			$views[] = 'linkit_picker_term';
+			$form['link']['browser_wrapper']['term'] = array(
+				'#type' => 'button',
+				'#value' => t('Term'),
+				'#weight' => 2,
+				'#attributes' => array('class' => array('linkit_picker_button')),
+			);
+		}
+		
     $form['link']['browser_wrapper']['container'] = array(
       '#prefix' => '<div id="linkit-picker-container">',
       '#suffix' => '</div>',
-      '#type' => 'markup', 
-      '#value' => _linkit_picker_render_container(),
+      '#markup' => _linkit_picker_render_container($views),
       '#weight' => 10,
     );
   }
 }
 
+
 /**
  * Return all the views that should be used in the container.
  */
-function _linkit_picker_render_container() {
+function _linkit_picker_render_container($views) {
   $form_value = "";
 
-  $views = array('linkit_picker_node', 'linkit_picker_user', 'linkit_picker_term');
-
-  foreach ($views AS $view) {
+  foreach ($views as $view) {
     $form_value .= _linkit_picker_get_views($view);
   }
 
@@ -70,10 +82,11 @@ function _linkit_picker_render_container() {
  */
 function linkit_picker_views_api() {
   return array(
-    'api' => 2,
+    'api' => 3,
     'path' => drupal_get_path('module', 'linkit_picker') . '/includes', 
   );
 }
+
 
 /**
  * Implementation of hook_theme_registry_alter().
