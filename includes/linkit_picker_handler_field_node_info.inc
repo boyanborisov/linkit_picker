@@ -5,17 +5,18 @@
  *
  * Provides a handler that builds the string for node links we what to use with Linkit core.
  */
-
 class linkit_picker_handler_field_node_info extends views_handler_field {
-	function query() {
+
+  function query() {
     // Do nothing, as this handler does not need to do anything to the query itself.
   }
-  
-  function render($values) {		
-		$nid = $values->nid;
+
+  function render($values) {
+    $nid = $values->nid;
     $title = $values->node_title;
-		// $type = ucwords($values->node_type);
+    // $type = ucwords($values->node_type);
     $value = $title . ' [path:internal:node/' . $nid . ']';
     return $value;
   }
+
 }
