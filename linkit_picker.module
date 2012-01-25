@@ -5,6 +5,11 @@
  * Main file for linkit_pikcer module.
  */
 
+function linkit_picker_init() {
+  drupal_add_css(drupal_get_path('module', 'linkit_picker') . '/linkit_picker.css');
+  drupal_add_js(drupal_get_path('module', 'linkit_picker') . '/linkit_picker.js');
+}
+
 /**
  * Implements hook_form_alter().
  */
