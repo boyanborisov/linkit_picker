@@ -14,7 +14,8 @@ function linkit_picker_init() {
  * Implements hook_form_alter().
  */
 function linkit_picker_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == "_linkit_form") {
+  if ($form_id == "linkit_dashboard_form") {
+    $profile = linkit_get_dashboard_profile();
     $form['link']['link']['#field_suffix'] = '<input type="submit" id="linkit-imce" name="linkit-imce" value="Choose File ..." class="form-submit" />';
     $form['link']['attributes']['#weight'] = 3;
     $form['link']['browser_wrapper'] = array(
@@ -29,7 +30,7 @@ function linkit_picker_form_alter(&$form, &$form_state, $form_id) {
     $modulesInstalled = module_list();
     $views = array();
 
-    if (array_key_exists('linkit_node', $modulesInstalled)) {
+    if (isset($profile->data['plugins']['node']['enabled']) && $profile->data['plugins']['node']['enabled']) {
       $views[] = 'linkit_picker_node';
       $form['link']['browser_wrapper']['node'] = array(
           '#type' => 'button',
@@ -39,7 +40,7 @@ function linkit_picker_form_alter(&$form, &$form_state, $form_id) {
       );
     }
 
-    if (array_key_exists('linkit_user', $modulesInstalled)) {
+    if (isset($profile->data['plugins']['user']['enabled']) && $profile->data['plugins']['user']['enabled']) {
       $views[] = 'linkit_picker_user';
       $form['link']['browser_wrapper']['user'] = array(
           '#type' => 'button',
@@ -49,7 +50,7 @@ function linkit_picker_form_alter(&$form, &$form_state, $form_id) {
       );
     }
 
-    if (array_key_exists('linkit_taxonomy', $modulesInstalled)) {
+    if (isset($profile->data['plugins']['taxonomy']['enabled']) && $profile->data['plugins']['taxonomy']['enabled']) {
       $views[] = 'linkit_picker_term';
       $form['link']['browser_wrapper']['term'] = array(
           '#type' => 'button',
