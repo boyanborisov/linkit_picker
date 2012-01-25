@@ -16,7 +16,8 @@
 		attach: function(context) {
 			$('.view-display-id-default tr td', context).click(function() {
 				var type = $(this).parent().find('.views-field-linkit-picker');
-				$('.form-item-link input.form-text').val($.trim(type.text())).focus();
+				$('#edit-linkit-path').val($.trim(type.text())).focus();
+				Drupal.linkit.dialog.requiredFieldsValidation();
 				$('html, body').animate({scrollTop:0}, 200);
 				$('#edit-browser-wrapper.collapsible legend a').click();
 			});
