@@ -12,11 +12,7 @@ class linkit_picker_handler_field_term_info extends views_handler_field {
   }
 
   function render($values) {
-    $tid = $values->tid;
-    $term_data_name = $values->term_data_name;
-    $path = taxonomy_term_path(taxonomy_get_term($tid));
-    $value = $term_data_name . ' [path:' . $path . ']';
-    return $value;
+    return 'taxonomy/term/' . $values->tid;
   }
 
 }

@@ -5,81 +5,55 @@
  * Main file for linkit_pikcer module.
  */
 
-function linkit_picker_init() {
-  drupal_add_css(drupal_get_path('module', 'linkit_picker') . '/linkit_picker.css');
-  drupal_add_js(drupal_get_path('module', 'linkit_picker') . '/linkit_picker.js');
-}
-
 /**
  * Implements hook_form_alter().
  */
 function linkit_picker_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == "linkit_dashboard_form") {
-    $profile = linkit_get_dashboard_profile();
-    $form['link']['link']['#field_suffix'] = '<input type="submit" id="linkit-imce" name="linkit-imce" value="Choose File ..." class="form-submit" />';
-    $form['link']['attributes']['#weight'] = 3;
-    $form['link']['browser_wrapper'] = array(
-        '#type' => 'fieldset',
-        '#title' => t('Select From List'),
-        '#collapsible' => TRUE,
-        '#collapsed' => TRUE,
-        '#weight' => 2,
-        '#attributes' => array('class' => array('linkit_picker')),
-    );
-
-    $modulesInstalled = module_list();
-    $views = array();
-
-    if (isset($profile->data['plugins']['node']['enabled']) && $profile->data['plugins']['node']['enabled']) {
-      $views[] = 'linkit_picker_node';
-      $form['link']['browser_wrapper']['node'] = array(
-          '#type' => 'button',
-          '#value' => t('Node'),
-          '#weight' => 0,
-          '#attributes' => array('class' => array('linkit_picker_button')),
-      );
-    }
-
-    if (isset($profile->data['plugins']['user']['enabled']) && $profile->data['plugins']['user']['enabled']) {
-      $views[] = 'linkit_picker_user';
-      $form['link']['browser_wrapper']['user'] = array(
-          '#type' => 'button',
-          '#value' => t('User'),
-          '#weight' => 1,
-          '#attributes' => array('class' => array('linkit_picker_button')),
-      );
-    }
-
-    if (isset($profile->data['plugins']['taxonomy']['enabled']) && $profile->data['plugins']['taxonomy']['enabled']) {
-      $views[] = 'linkit_picker_term';
-      $form['link']['browser_wrapper']['term'] = array(
-          '#type' => 'button',
-          '#value' => t('Term'),
-          '#weight' => 2,
-          '#attributes' => array('class' => array('linkit_picker_button')),
-      );
-    }
-
-    $form['link']['browser_wrapper']['container'] = array(
-        '#prefix' => '<div id="linkit-picker-container">',
-        '#suffix' => '</div>',
-        '#markup' => _linkit_picker_render_container($views),
-        '#weight' => 10,
-    );
+      if (isset($form['#suffix'])) {
+        $form['#suffix'] .= linkit_picker_dashboard_filter();
+      }
+      else {
+        $form['#suffix'] = linkit_picker_dashboard_filter();
+      }
   }
+}
+
+function linkit_picker_dashboard_filter() {
+
+   return _linkit_picker_render_container(array('linkit_picker_node', 'linkit_picker_term', 'linkit_picker_user'));
 }
 
 /**
  * Return all the views that should be used in the container.
  */
 function _linkit_picker_render_container($views) {
-  $form_value = "";
+  $container = array(
+    '#type' => 'container',
+    '#attributes' => array('class' => array('linkit-picker-container'), 'id' => 'linkit-picker-container'),
+  );
 
-  foreach ($views as $view) {
-    $form_value .= _linkit_picker_get_views($view);
+  drupal_add_css(drupal_get_path('module', 'linkit_picker') . '/linkit_picker.css');
+  drupal_add_js(drupal_get_path('module', 'linkit_picker') . '/linkit_picker.js');
+
+  foreach ($views as $viewname) {
+    $view = _linkit_picker_get_view($viewname);
+    $container['browser_wrapper'][$viewname] = array(
+      '#type' => 'link',
+      '#title' => $view->get_title(),
+      '#attributes' => array('class' => array('linkit-picker-button'), 'data-viewname' => $viewname),
+    );
+
+    $container[$viewname] = array(
+      '#type' => 'container',
+      '#attributes' => array('class' => array('view-container', 'view-linkit-picker-' . $viewname)),
+    );
+    $container[$viewname]['view'] = array(
+      '#markup' => $view->preview('default'),
+    );
   }
 
-  return $form_value;
+  return drupal_render($container);
 }
 
 /**
@@ -92,33 +66,14 @@ function linkit_picker_views_api() {
   );
 }
 
-/**
- * Implements hook_theme_registry_alter().
- */
-function linkit_picker_theme_registry_alter(&$theme_registry) {
-  // Add a new preprocess function
-  $theme_registry['linkit_dashboard']['preprocess functions'][] = 'linkit_picker_alter_template_preprocess_linkit_dashboard';
-}
 
-function linkit_picker_alter_template_preprocess_linkit_dashboard(&$variables) {
-  drupal_add_js(drupal_get_path('module', 'linkit_picker') . '/linkit_picker.js');
-  drupal_add_css(drupal_get_path('module', 'linkit_picker') . '/linkit_picker.css');
-
-  $variables['styles'] = drupal_get_css();
-  $variables['head'] = drupal_get_html_head();
-  $variables['scripts'] = drupal_get_js();
-}
-
-function _linkit_picker_get_views($viewname) {
-  $output = '';
-
+function _linkit_picker_get_view($viewname) {
   $view = views_get_view($viewname);
   if ($view && $view->access('default')) {
-    $output .= '<div class="view-container">';
-    $output .= $view->get_title();
-    $output .= $view->preview('default');
-    $output .= '</div>';
+    return $view;
+  }
+  else {
+    return NULL;
   }
 
-  return $output;
 }
