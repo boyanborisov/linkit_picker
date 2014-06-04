@@ -2,7 +2,7 @@ name = Linkit Picker
 description = Linkit Picker adds the possibility to "browse" links like Node Picker had.
 core = 7.x
 package = Linkit
-dependencies[] = linkit (>=2)
+dependencies[] = linkit (>=3)
 dependencies[] = "views"
 files[] = "includes/linkit_picker.views.inc"
 files[] = "includes/linkit_picker.views_default.inc"
