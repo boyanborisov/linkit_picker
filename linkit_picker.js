@@ -18,9 +18,13 @@
 	Drupal.behaviors.linkit_picker = {
 		attach: function(context) {
 			$('#linkit-picker-container .view-container tr td:not(.linkit-row-processed)').addClass('linkit-row-processed').click(function() {
-				var type = $(this).parent().find('.views-field-linkit-picker');
-				$('#edit-linkit-path').val($.trim(type.text())).focus();
-				Drupal.linkit.requiredFieldsValidation();
+				var result = $(this).parent().find('.views-field-linkit-picker');
+				result = jQuery.parseJSON($.trim(result.text()));
+				Drupal.linkit.populateFields({
+          path: result.path
+        });
+        Drupal.settings.linkit.currentInstance.linkContent = result.title;
+        $('.linkit-path-element', context).focus();
 				$('html, body').animate({scrollTop:0}, 200);
 			});
 		}
