@@ -78,6 +78,7 @@ function _linkit_picker_render_container($views) {
     }
     $container['browser_wrapper'][$viewname] = array(
       '#type' => 'link',
+      '#href' => '',
       '#title' => $view->get_title(),
       '#attributes' => array('class' => array('linkit-picker-button'), 'data-viewname' => $viewname),
     );
