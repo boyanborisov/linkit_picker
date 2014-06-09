@@ -10,8 +10,7 @@
 				$('#linkit-picker-container .view-linkit-picker-' + viewname).toggle();
 				return false;
 			});
-			$('#linkit-picker-container .view-container:first', context).show();
-			$('#linkit-picker-container a.linkit-picker-button:first', context).addClass('selected');
+			$('a.linkit-picker-button:first', context).click();
 		}
 	}
 
