@@ -46,12 +46,6 @@ function linkit_picker_config_form($form, &$form_state) {
  */
 function _linkit_picker_get_applicable_views() {
   $cache = &drupal_static(__FUNCTION__, array());
-  //All predefined linkit picker fiedls
-  $linkit_picker_fields = array(
-    'linkit_picker_node',
-    'linkit_picker_taxonomy',
-    'linkit_picker_user'
-  );
 
   if(empty($cache)) {
     $views = views_get_all_views();
@@ -59,7 +53,7 @@ function _linkit_picker_get_applicable_views() {
       if(isset($view->display['default'], $view->display['default']->display_options['fields'])) {
         $fields = $view->display['default']->display_options['fields'];
         foreach ($fields as $field) {
-          if(isset($field['table']) && in_array($field['table'], $linkit_picker_fields)) {
+          if(isset($field['table']) && strstr($field['table'], 'linkit_picker_')) {
             $cache[$view->name] = $view;
           }
         }
