@@ -293,6 +293,7 @@ function linkit_picker_views_default_views() {
   $handler->display->display_options['filters']['uid']['expose']['label'] = 'User: Name';
   $handler->display->display_options['filters']['uid']['expose']['operator'] = 'uid_op';
   $handler->display->display_options['filters']['uid']['expose']['identifier'] = 'uid';
+  $views[$view->name] = $view;
 
   return $views;
 }
