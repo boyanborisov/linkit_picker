@@ -13,7 +13,7 @@ class linkit_picker_handler_field_node_info extends views_handler_field {
 
   function render($values) {
     $value = array(
-      'path' => linkit_get_insert_plugin_processed_path(linkit_get_active_profile(), 'node/' . $values->nid),
+      'path' => _linkit_picker_get_insert_plugin_processed_path('node/' . $values->nid),
       'title' => $values->node_title
     );
     return drupal_json_encode($value);

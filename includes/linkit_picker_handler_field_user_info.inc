@@ -13,7 +13,7 @@ class linkit_picker_handler_field_user_info extends views_handler_field {
 
   function render($values) {
     $value = array(
-      'path' => linkit_get_insert_plugin_processed_path(linkit_get_active_profile(), 'user/' . $values->uid),
+      'path' => _linkit_picker_get_insert_plugin_processed_path('user/' . $values->uid),
       'title' => $values->users_name
     );
     return drupal_json_encode($value);
