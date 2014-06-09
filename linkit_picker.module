@@ -138,3 +138,16 @@ function linkit_picker_get_profile_views($profile_name) {
     return array();
   }
 }
+
+/**
+ *
+ * Set the active profile if it's not set.
+ */
+function _linkit_picker_set_active_profile() {
+  if(!linkit_get_active_profile()) {
+    $profile = linkit_profile_load(arg(2));
+    if($profile) {
+      linkit_set_active_profile($profile);
+    }
+  }
+}
